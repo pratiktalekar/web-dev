@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { boolean } = require("zod");
 
-mongoose.connect("mongodb+srv://pratiktalekarpatil:Manjusha8122004@cluster0.ouh1jis.mongodb.net/todos");
+mongoose.connect("your connecting link tp monogdb compass");
 
 const todoSchema = mongoose.Schema({
     title : String,
