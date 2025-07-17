@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>first_page</title>
+</head>
+<body>
+    <script>
+        let timeout;
+        function debounceDiv(){
+            clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                calculateDiv();
+            }, 100);
+        }
+        async function calculateDiv(){
+            const a = document.getElementById('first_number').value;
+            const b = document.getElementById("second_number").value;
+            const response = await fetch("http://localhost:3000/sum?a=" + a + "&b=" + b);
+            const ans = await response.text();
+            document.getElementById("final_sum").innerHTML = ans;
+        }
+    </script>
+
+    <div>
+        <input oninput="debounceDiv()" id="first_number" type="text" placeholder="first number"></input>
+        <br></br>
+        <input oninput="debounceDiv()" id="second_number" type="text" placeholder="second number"></input>
+        <br></br>
+        <div id="final_sum">
+        </div>
+    </div>
+    
+</body>
+</html>
