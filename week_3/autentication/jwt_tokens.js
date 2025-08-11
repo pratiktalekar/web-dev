@@ -5,6 +5,8 @@ const app = express()
 const jwtPass = '123456';
 const PORT = 3000;
 
+app.use(express.json())
+
 const users = [
     {
         email : "pratik@gmail.com",
@@ -20,44 +22,22 @@ const users = [
     }
 ]
 
-function userExists(email, password) {
-    n = users.length
-    let ans = false
-    for (let i=0; i<n ; i++) {
-        if (users[i].email == email && users[i].password == password) {
-            ans = true
-        }
-    }
-    return ans
-}
-
-app.use(express.json())
-
 app.post("/signup", (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
+    const username = req.headers.username
+    const password = req.headers.password
 
-    if (!userExists(email, password)) {
-        res.status(403).json({
-            msg : "data is invalid"
-        })
+    if (!userExists(username)) {
+        res.json({msg : "user already exists"})
     }
-
-    var token = jwt.sign({email : email}, jwtPass);
-    res.json({
-        token,
-    })
+    const token = jwt.sign({username}, jwtPass)
+    res.status(200).json({token : token})
 })
 
 app.get("/users", (req, res) => {
     const token = req.headers.authorization;
-    const decoded = jwt.verify(token, jwtPass);
-    const email = decoded.email;
-    res.json({
-        users : users
-    })
-})
 
+    
+})
 
 
 app.listen(3000, () => {
